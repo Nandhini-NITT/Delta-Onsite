@@ -1,0 +1,98 @@
+<html>
+<head>
+	<title>Bar Graph</title>
+	<link rel="stylesheet" href="bootstrap.min.css">
+	<script src="jquery-1.12.2.min.js"></script>
+	<script src="bootstrap.min.js"></script>
+	<link rel='stylesheet' type='text/css' href='bargraph.css'>
+</head>
+<body>
+	
+	<div id='sheet' style='border-bottom:2px solid black;border-left:2px solid black;'>
+
+	</div>
+	<br>
+<div id='getInput'>
+	<input type='number' placeholder="Enter the height of bar" id='height'>
+	<button onClick='DrawBar();'>Draw bar</button>
+</div>
+<br>
+<div id='maxHeight' style='float:right'>
+	<input type='number' id='getHeight'>
+	<button onClick='resizeBars();'>Resize bars(when a bar becomes invisibile)</button>
+</div>
+<div id='sheetHeight' style='float:left'>
+	<input type='number' id='Height'>
+	<button onClick='magnifySheet();'>Change the height of graph sheet</button>
+</div>
+<script>
+var inputGiven=[],pointer=0;
+var max,maxpointer,maxHeight=200,sheetHeight=300;
+function magnifySheet()
+{
+	sheetHeight=document.getElementById("Height").value;
+	$('#sheet').css('height',sheetHeight);
+	$('.common').css("bottom",(maxHeight-sheetHeight)+'px');
+}
+function findheight(max,maxHeight,inputGiven)
+{
+	var height=(inputGiven/max)*maxHeight;
+	return height;
+}
+
+function resizeBars()
+{
+	maxHeight=document.getElementById("getHeight").value;
+	if(maxHeight>$('#sheet').css("height"))
+		alert("size of bar cannot exceed size of sheet");
+	else
+	{
+		$('#bar'+maxpointer).css("height",maxHeight);
+		for(var i=0;i<inputGiven.length;i++)
+		{
+			var height=findheight(max,maxHeight,inputGiven[i]);
+			$('#bar'+i).css("height",height);
+			$('#bar'+i).css("bottom",maxHeight-sheetHeight+'px');
+		}
+	}
+}
+function DrawBar()
+{
+	$('#getHeight').attr("placeholder","Maximum Height : "+maxHeight);
+	inputGiven[pointer]=document.getElementById("height").value;
+	if(max===undefined)
+	{
+		max= inputGiven[0];
+	}
+	if(maxpointer===undefined)
+		maxpointer=0;
+	$('#sheet').append('<div id="bar'+pointer+'" class="common"></div>');
+	$('#bar'+pointer).append('<p id="label" style="display:table;margin:0 auto">'+inputGiven[pointer]+'</p>');
+	var t=max;
+	for (var i = 1; i < inputGiven.length; i++) {
+	if(parseInt(inputGiven[i])>max) {
+	  max = inputGiven[i];
+	  maxpointer=i;
+    }
+	}
+	if(t==max)
+	{
+		var height=findheight(max,maxHeight,inputGiven[pointer]);
+		$('#bar'+pointer).css("height",height);
+	}
+	else
+	{
+		$('#bar'+maxpointer).css("height",maxHeight);
+		for(var i=0;i<maxpointer;i++)
+		{
+			var height=findheight(max,maxHeight,inputGiven[i]);
+			$('#bar'+i).css("height",height);
+		}
+	}
+	$('#bar'+pointer).css("bottom",maxHeight-sheetHeight+'px');
+	pointer++;
+}
+</script>
+
+</body>
+</html>
