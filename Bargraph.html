@@ -9,7 +9,6 @@
 <body>
 	
 	<div id='sheet' style='border-bottom:2px solid black;border-left:2px solid black;'>
-
 	</div>
 	<br>
 <div id='getInput'>
@@ -34,12 +33,6 @@ function magnifySheet()
 	$('#sheet').css('height',sheetHeight);
 	$('.common').css("bottom",(maxHeight-sheetHeight)+'px');
 }
-function findheight(max,maxHeight,inputGiven)
-{
-	var height=(inputGiven/max)*maxHeight;
-	return height;
-}
-
 function resizeBars()
 {
 	maxHeight=document.getElementById("getHeight").value;
@@ -93,6 +86,5 @@ function DrawBar()
 	pointer++;
 }
 </script>
-
 </body>
 </html>
